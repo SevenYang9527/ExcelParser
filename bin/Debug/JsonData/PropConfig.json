@@ -1,0 +1,36 @@
+{
+  "PropConfig": {
+    "Undo": {
+      "ID": "Undo",
+      "Unlock": 1,
+      "Init": 1,
+      "GetByAd": 1,
+      "Pass": 1,
+      "Rate": 50
+    },
+    "Hint": {
+      "ID": "Hint",
+      "Unlock": 1,
+      "Init": 2,
+      "GetByAd": 1,
+      "Pass": 1,
+      "Rate": 25
+    },
+    "Reset": {
+      "ID": "Reset",
+      "Unlock": 1,
+      "Init": 3,
+      "GetByAd": 1,
+      "Pass": 1,
+      "Rate": 25
+    },
+    "Hole": {
+      "ID": "Hole",
+      "Unlock": 0,
+      "Init": 5,
+      "GetByAd": 1,
+      "Pass": 1,
+      "Rate": 0
+    }
+  }
+}

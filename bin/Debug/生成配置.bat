@@ -1,0 +1,1 @@
+start ExcelParser-win32-x64/ExcelParser.exe
