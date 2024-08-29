@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using System.Reflection;
 using Formatting = Newtonsoft.Json.Formatting;
-
 #if DEBUG
 bool isOpenTestLog = true;
 #else
@@ -144,10 +143,25 @@ static Dictionary<string,Dictionary<string, object>> ReadExcelFile(string filePa
                     {
                         if (value.Value)
                         {
-                            object oldValue = worksheet.Cells[row, value.Key].Value == null
-                                ? GetDefaultValue(types[value.Key])
-                                : worksheet.Cells[row, value.Key].Value;
-                            object convertedValue = Convert.ChangeType(oldValue, GetValueType(types[value.Key]));
+                            object oldValue = null;
+                            object convertedValue = null;
+                            if (worksheet.Cells[row, value.Key].Value == null)
+                            {
+                                oldValue = GetDefaultValue(types[value.Key]);
+                                convertedValue = Convert.ChangeType(oldValue, GetValueType(types[value.Key]));
+                            }
+                            else
+                            {
+                                if (types[value.Key].Contains("[]"))//数组类型
+                                {
+                                    convertedValue = GetArrayTypeValue(types[value.Key], worksheet.Cells[row, value.Key].Text);
+                                }
+                                else
+                                {
+                                    oldValue = worksheet.Cells[row, value.Key].Value;
+                                    convertedValue = Convert.ChangeType(oldValue, GetValueType(types[value.Key]));
+                                }
+                            }
                             rowData.Add(headers[value.Key], convertedValue);
                         }
                     }
@@ -167,18 +181,32 @@ static object GetDefaultValue(string type)
     {
         case "int":
             return default(int);
+        case "int[]":
+            return new List<int>();
         case "long":
             return default(long);
+        case "long[]":
+            return new List<long>();
         case "float":
             return default(float);
+        case "float[]":
+            return new List<float>();
         case "double":
             return default(double);
+        case "double[]":
+            return new List<double>();
         case "bool":
             return default(bool);
+        case "bool[]":
+            return new List<bool>();
         case "char":
             return default(char);
+        case "char[]":
+            return new List<char>();
         case "string":
             return string.Empty;
+        case "string[]":
+            return new List<string>();
         default:
             return null;
     }
@@ -202,11 +230,63 @@ static Type GetValueType(string type)
             return typeof(char);
         case "string":
             return typeof(string);
+        case "int[]":
+            return typeof(List<int>);
+        case "long[]":
+            return typeof(List<long>);
+        case "float[]":
+            return typeof(List<float>);
+        case "double[]":
+            return typeof(List<double>);
+        case "bool[]":
+            return typeof(List<bool>);
+        case "char[]":
+            return typeof(List<char>);
+        case "string[]":
+            return typeof(List<string>);
         default:
             LogError($"未添加{type}类型转换");
             return typeof(string);
     }
 }
+//数组类型转换 todo 后续可扩展相应类型
+static object GetArrayTypeValue(string type,string value)
+{
+    string elementTypeStr = type.Replace("[]", "");
+    Type elementType = GetValueType(elementTypeStr);
+    switch (type)
+    {
+        case "int[]":
+            return ArrayTypeSwitch<int>(elementType, value);
+        case "long[]":
+            return ArrayTypeSwitch<long>(elementType, value);
+        case "float[]":
+            return ArrayTypeSwitch<float>(elementType, value);
+        case "double[]":
+            return ArrayTypeSwitch<double>(elementType, value);
+        case "bool[]":
+            return ArrayTypeSwitch<bool>(elementType, value);
+        case "char[]":
+            return ArrayTypeSwitch<char>(elementType, value);
+        case "string[]":
+            return ArrayTypeSwitch<string>(elementType, value);
+        default:
+            return ArrayTypeSwitch<string>(elementType, value);
+    }
+}
+//数组类型转换
+static List<T> ArrayTypeSwitch<T>(Type elementType, string value)
+{
+    var valueList = new List<T>();
+    var elementArray = value.Split("^");
+    for (int i = 0; i < elementArray.Length; i++)
+    {
+        T elementValue =(T)Convert.ChangeType(elementArray[i], elementType);
+        valueList.Add(elementValue);
+    }
+    return valueList;
+}
+
 //打印普通日志
 static void Log(string msg,bool isOpen)
 {

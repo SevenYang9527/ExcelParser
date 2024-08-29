@@ -1,33 +1,45 @@
 {
   "PropConfig": {
-    "Undo": {
-      "ID": "Undo",
-      "Unlock": 1,
-      "Init": 1,
+    "10001": {
+      "ID": "10001",
+      "Name": "回退",
+      "Desc": "回退一个方块",
+      "IconName": "props_undo",
+      "Init": 0,
+      "Unlock": 2,
       "GetByAd": 1,
       "Pass": 1,
       "Rate": 50
     },
-    "Hint": {
-      "ID": "Hint",
-      "Unlock": 1,
-      "Init": 2,
+    "10002": {
+      "ID": "10002",
+      "Name": "提示",
+      "Desc": "匹配3个相同方块",
+      "IconName": "props_hint",
+      "Init": 0,
+      "Unlock": 10,
       "GetByAd": 1,
       "Pass": 1,
       "Rate": 25
     },
-    "Reset": {
-      "ID": "Reset",
-      "Unlock": 1,
-      "Init": 3,
+    "10003": {
+      "ID": "10003",
+      "Name": "洗牌",
+      "Desc": "重设所有块的类型",
+      "IconName": "props_shuffle",
+      "Init": 0,
+      "Unlock": 15,
       "GetByAd": 1,
       "Pass": 1,
       "Rate": 25
     },
-    "Hole": {
-      "ID": "Hole",
+    "10004": {
+      "ID": "10004",
+      "Name": "黑洞",
+      "Desc": "匹配3个并消除已选块",
+      "IconName": "props_hole",
+      "Init": 0,
       "Unlock": 0,
-      "Init": 5,
       "GetByAd": 1,
       "Pass": 1,
       "Rate": 0

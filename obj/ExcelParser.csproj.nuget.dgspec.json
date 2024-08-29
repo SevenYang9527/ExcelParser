@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\ExcelParser\\ExcelParser\\ExcelParser.csproj": {}
+    "H:\\ExcelParser\\ExcelParser.csproj": {}
   },
   "projects": {
-    "H:\\ExcelParser\\ExcelParser\\ExcelParser.csproj": {
+    "H:\\ExcelParser\\ExcelParser.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\ExcelParser\\ExcelParser\\ExcelParser.csproj",
+        "projectUniqueName": "H:\\ExcelParser\\ExcelParser.csproj",
         "projectName": "ExcelParser",
-        "projectPath": "H:\\ExcelParser\\ExcelParser\\ExcelParser.csproj",
+        "projectPath": "H:\\ExcelParser\\ExcelParser.csproj",
         "packagesPath": "C:\\Users\\A\\.nuget\\packages\\",
-        "outputPath": "H:\\ExcelParser\\ExcelParser\\obj\\",
+        "outputPath": "H:\\ExcelParser\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

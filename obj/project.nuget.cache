@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bXXKmCPM5iJQhwAEsFjXKb66oYhLh70jU2gIDtkQKGtLkofcBgNSKHadndrKDGxSYykddcGa0OkPknJWkEubUw==",
+  "dgSpecHash": "3r/gakAyfOgDf5wQ6tLwHCQPPg8V3qDttKcx1dwtPUM7tYxejRfUP+7puLF70lmCwKPmGGrEMUV4Xc4hP2gxVQ==",
   "success": true,
-  "projectFilePath": "H:\\ExcelParser\\ExcelParser\\ExcelParser.csproj",
+  "projectFilePath": "H:\\ExcelParser\\ExcelParser.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\A\\.nuget\\packages\\epplus\\7.2.2\\epplus.7.2.2.nupkg.sha512",
     "C:\\Users\\A\\.nuget\\packages\\epplus.interfaces\\6.1.1\\epplus.interfaces.6.1.1.nupkg.sha512",

@@ -1,0 +1,22 @@
+{
+  "ClubActiveTask": {
+    "1001": {
+      "ID": "1001",
+      "TaskDesc": "每日：点赞<color=#FE6B00>{#}</color>个帖子",
+      "RequireNum": 3,
+      "Reward": "10001:1"
+    },
+    "1002": {
+      "ID": "1002",
+      "TaskDesc": "每日：评论<color=#FE6B00>{#}</color>个帖子",
+      "RequireNum": 1,
+      "Reward": "10001:2"
+    },
+    "1003": {
+      "ID": "1003",
+      "TaskDesc": "每日：发<color=#FE6B00>{#}</color>个帖子",
+      "RequireNum": 1,
+      "Reward": "10001:3"
+    }
+  }
+}
