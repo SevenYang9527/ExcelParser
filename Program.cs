@@ -32,7 +32,14 @@ using (var package = new ExcelPackage(new FileInfo(reportConfigPath)))
 string excelsPath = Path.GetFullPath(Path.Combine(exePath, excelRelativePath));
 reportRelativePath_Json = Path.GetFullPath(Path.Combine(exePath, reportRelativePath_Json));
 reportRelativePath_CS = Path.GetFullPath(Path.Combine(exePath, reportRelativePath_CS));
-
+if (!Directory.Exists(reportRelativePath_Json))
+    Directory.CreateDirectory(reportRelativePath_Json);
+else
+    DeleteAllFilesInDirectory(reportRelativePath_Json);
+if (!Directory.Exists(reportRelativePath_CS))
+    Directory.CreateDirectory(reportRelativePath_CS);
+else
+    DeleteAllFilesInDirectory(reportRelativePath_CS);
 Log($"excelsPath: {excelsPath}", isOpenTestLog);
 Log($"reportRelativePath_Json: {reportRelativePath_Json}", isOpenTestLog);
 Log($"reportRelativePath_CS: {reportRelativePath_CS}", isOpenTestLog);
@@ -59,12 +66,8 @@ foreach (string file in files)
             // 输出JSON
             Log(json, isOpenTestLog);
             // JSON格式
-            if (!Directory.Exists(reportRelativePath_Json))
-                Directory.CreateDirectory(reportRelativePath_Json);
             File.WriteAllText($"{reportRelativePath_Json}/{fileNameWithoutExtension}.json", json);
             // CS格式
-            if (!Directory.Exists(reportRelativePath_CS))
-                Directory.CreateDirectory(reportRelativePath_CS);
             string csModel = ReadCsScriptModel(reportCsModelPath).Replace("{#}", fileNameWithoutExtension+"Config");
             csModel = csModel.Replace("{##}", cfgModelParam);
             File.WriteAllText($"{reportRelativePath_CS}/{fileNameWithoutExtension}ConfigModel.cs", csModel);
@@ -77,6 +80,22 @@ Console.WriteLine("按任意键关闭此窗口...");
 Console.ReadKey(true);
 #endif
 return;
+//删除目录下所有文件
+static void DeleteAllFilesInDirectory(string path)
+{
+    string[] files = Directory.GetFiles(path);
+    foreach (string file in files)
+    {
+        File.Delete(file);
+    }
+    // 获取子目录中的所有子目录
+    string[] subDirectories = Directory.GetDirectories(path);
+    // 递归删除每个子目录中的所有文件
+    foreach (string subDirectory in subDirectories)
+    {
+        DeleteAllFilesInDirectory(subDirectory);
+    }
+}
 
 //读取生成Cs脚本的模板
 static string ReadCsScriptModel(string filePath)

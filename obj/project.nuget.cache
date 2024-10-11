@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ObWoZ10A+PQ=",
+  "dgSpecHash": "SVmi2bbYZf0=",
   "success": true,
-  "projectFilePath": "E:\\ExcelParser-master\\ExcelParser.csproj",
+  "projectFilePath": "E:\\ExcelParserProject\\ExcelParser.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ASUS\\.nuget\\packages\\epplus\\7.4.0\\epplus.7.4.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\epplus.interfaces\\6.1.1\\epplus.interfaces.6.1.1.nupkg.sha512",

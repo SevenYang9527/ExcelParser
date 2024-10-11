@@ -1139,11 +1139,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ExcelParser-master\\ExcelParser.csproj",
+      "projectUniqueName": "E:\\ExcelParserProject\\ExcelParser.csproj",
       "projectName": "ExcelParser",
-      "projectPath": "E:\\ExcelParser-master\\ExcelParser.csproj",
+      "projectPath": "E:\\ExcelParserProject\\ExcelParser.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "E:\\ExcelParser-master\\obj\\",
+      "outputPath": "E:\\ExcelParserProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",

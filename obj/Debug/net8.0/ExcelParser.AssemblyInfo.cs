@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExcelParser")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0aa4616a2e063c7b48a111668bead9b2822c7709")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExcelParser")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExcelParser")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
