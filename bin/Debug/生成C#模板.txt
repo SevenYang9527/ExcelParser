@@ -1,0 +1,21 @@
+using MemoryPack;
+using System.Collections.Generic;
+using UnityEngine;
+
+[MemoryPackable]
+public partial class {#}ConfigModel
+{
+    public Dictionary<string, {#}> {#};
+    public {#} GetValue(string key)
+    {
+        if ({#}.TryGetValue(key, out {#} value))
+            return value;
+        Debug.LogError($"{nameof({#})}未查询到key：{key}");
+        return null;
+    }
+}
+[MemoryPackable]
+public partial class {#}Config
+{
+{##}
+}

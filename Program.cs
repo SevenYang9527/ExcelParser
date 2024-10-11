@@ -16,20 +16,26 @@ string exeDirectory = Path.GetDirectoryName(exePath);
 // 获取上一层目录
 string parentDirectory = Directory.GetParent(exeDirectory).FullName;
 string reportConfigPath = $"{parentDirectory}/导出配置.xlsx";
+string reportCsModelPath = $"{parentDirectory}/生成C#模板.txt";
 // 设置EPPlus许可证
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 string excelRelativePath = string.Empty;
-string reportRelativePath = string.Empty;
+string reportRelativePath_Json = string.Empty;
+string reportRelativePath_CS = string.Empty;
 using (var package = new ExcelPackage(new FileInfo(reportConfigPath)))
 {
     var worksheet = package.Workbook.Worksheets[0];
     excelRelativePath  = worksheet.Cells[1, 2].Text;
-    reportRelativePath = worksheet.Cells[2, 2].Text;
+    reportRelativePath_Json = worksheet.Cells[2, 2].Text;
+    reportRelativePath_CS = worksheet.Cells[3, 2].Text;
 }
 string excelsPath = Path.GetFullPath(Path.Combine(exePath, excelRelativePath));
-string reportConfig = Path.GetFullPath(Path.Combine(exePath, reportRelativePath));
+reportRelativePath_Json = Path.GetFullPath(Path.Combine(exePath, reportRelativePath_Json));
+reportRelativePath_CS = Path.GetFullPath(Path.Combine(exePath, reportRelativePath_CS));
+
 Log($"excelsPath: {excelsPath}", isOpenTestLog);
-Log($"reportPath: {reportConfig}", isOpenTestLog);
+Log($"reportRelativePath_Json: {reportRelativePath_Json}", isOpenTestLog);
+Log($"reportRelativePath_CS: {reportRelativePath_CS}", isOpenTestLog);
 // 获取上一层目录下的所有文件
 string[] files = Directory.GetFiles(excelsPath);
 
@@ -41,7 +47,8 @@ foreach (string file in files)
     {
         Log("File Path: " + file, isOpenTestLog);
         // 读取Excel文件
-        var excelData = ReadExcelFile(file);
+        string cfgModelParam = string.Empty;
+        var excelData = ReadExcelFile(file,ref cfgModelParam);
         if (excelData!=null)
         {
             jsonData.Clear();
@@ -51,16 +58,16 @@ foreach (string file in files)
             string json = JsonConvert.SerializeObject(jsonData, Formatting.Indented);
             // 输出JSON
             Log(json, isOpenTestLog);
-            string[] reportPathAndType = reportConfig.Split("|");
-            if (!Directory.Exists(reportPathAndType[0]))
-                Directory.CreateDirectory(reportPathAndType[0]);
-            //todo 后续可扩展添加导出数据类型
-            switch (reportPathAndType[1])
-            {
-                case "json":
-                    File.WriteAllText($"{reportPathAndType[0]}/{fileNameWithoutExtension}.json", json);
-                    break;
-            }
+            // JSON格式
+            if (!Directory.Exists(reportRelativePath_Json))
+                Directory.CreateDirectory(reportRelativePath_Json);
+            File.WriteAllText($"{reportRelativePath_Json}/{fileNameWithoutExtension}.json", json);
+            // CS格式
+            if (!Directory.Exists(reportRelativePath_CS))
+                Directory.CreateDirectory(reportRelativePath_CS);
+            string csModel = ReadCsScriptModel(reportCsModelPath).Replace("{#}", fileNameWithoutExtension+"Config");
+            csModel = csModel.Replace("{##}", cfgModelParam);
+            File.WriteAllText($"{reportRelativePath_CS}/{fileNameWithoutExtension}ConfigModel.cs", csModel);
         }
     }
 }
@@ -71,8 +78,23 @@ Console.ReadKey(true);
 #endif
 return;
 
+//读取生成Cs脚本的模板
+static string ReadCsScriptModel(string filePath)
+{
+    string allStr = "";
+    string line;
+    using (StreamReader sr = new StreamReader(filePath))
+    {
+        while ((line = sr.ReadLine()) != null)// 从文件读取并显示行，直到文件的末尾 
+        {
+            allStr += line+ Environment.NewLine;
+        }
+    }
+    return allStr;
+}
+
 //读取excel文件数据
-static Dictionary<string,Dictionary<string, object>> ReadExcelFile(string filePath)
+static Dictionary<string,Dictionary<string, object>> ReadExcelFile(string filePath,ref string cfgModelParam)
 {
     var result = new Dictionary<string, Dictionary<string, object>>();
     string fileName = Path.GetFileName(filePath);
@@ -110,6 +132,11 @@ static Dictionary<string,Dictionary<string, object>> ReadExcelFile(string filePa
                     LogError($"数值名称行，列{value.Key},存在空值");
                 headers.Add(value.Key, headerStr);
             }
+        }
+        //配置模板字段
+        foreach (var data in types)
+        {
+            cfgModelParam += $"    public {data.Value} {headers[data.Key]};{Environment.NewLine}";
         }
         int dataStartRowIndex = 5;
         //有效行数
